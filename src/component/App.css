@@ -1,0 +1,10 @@
+.container{
+    background-color: cadetblue;
+    border: 5px solid red;
+    border-radius: 40px;
+    padding: 30px;
+}
+#root{
+    /* background-color: black; */
+    height: 100vh;
+}
