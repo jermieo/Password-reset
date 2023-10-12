@@ -6,6 +6,9 @@ import Col from "react-bootstrap/Col";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const ResetPassword = () => {
   const obj = { password: "", conformPassword: "", userEmail: "" };
   const [formValue, stateValue] = useState(obj);
@@ -17,11 +20,15 @@ const ResetPassword = () => {
   };
   const handelsubmit = (e) => {
     e.preventDefault();
-    const { password, conformPassword, checked } = formValue;
+    const { password, conformPassword, userEmail } = formValue;
     if (password !== conformPassword) {
-      console.log("Please enter the same Password");
-    } else if (checked == false) {
-      console.log("Please check all information");
+      toast.error("Please enter the same Password", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (userEmail == "") {
+      toast.error("Please enter the email", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     } else {
       Postcall();
     }
@@ -43,6 +50,12 @@ const ResetPassword = () => {
         if (res.status == 200) {
           navigation("/login");
         }
+      })
+      .catch((error) => {
+        <ToastContainer />;
+        toast.error(error.response.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       });
   };
   return (
@@ -89,10 +102,12 @@ const ResetPassword = () => {
                 />
               </Form.Group>
               <br></br>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
+              <div>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+                <ToastContainer />
+              </div>
             </Form>
           </Col>
         </Row>

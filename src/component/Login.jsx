@@ -9,6 +9,10 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { tocken } from "../features/logSlice";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Login = () => {
   //   From field
   const obj = { userEmail: "", password: "" };
@@ -23,7 +27,18 @@ const Login = () => {
   //  input Form submit
   const handelSubmit = (e) => {
     e.preventDefault();
-    postcall();
+    const { userEmail, password } = formValue;
+    if (userEmail == "") {
+      toast.error("Please enter the Email", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (password == "") {
+      toast.error("Please enter the password", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      postcall();
+    }
   };
   const headers = {
     "Content-Type": "application/json",
@@ -38,15 +53,34 @@ const Login = () => {
           dispatch(tocken(res.data));
           navigation("/userpage");
         } else {
-          console.log("postcall in login error");
+          <ToastContainer />;
+          toast.success("Login some Problem", {
+            position: toast.POSITION.TOP_RIGHT,
+          });
         }
+      })
+      .catch((error) => {
+        <ToastContainer />;
+        toast.error(error.response.data.message, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       });
   };
   const handellinkepage = async () => {
-    await axios
-      .post("http://localhost:4000/api/registration/nodemailer/link", formValue)
-      .then((res) => console.log(res))
-      .catch((error) => console.log(error));
+    const { userEmail } = formValue;
+    if (userEmail == "") {
+      toast.error("Please enter Email", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else {
+      await axios
+        .post(
+          "http://localhost:4000/api/registration/nodemailer/link",
+          formValue
+        )
+        .then((res) => console.log(res))
+        .catch((error) => console.log(error));
+    }
   };
   return (
     <>
@@ -80,15 +114,40 @@ const Login = () => {
                 />
               </Form.Group>
               <br></br>
-
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
+              <div>
+                <div>
+                  <Button variant="primary" type="submit">
+                    Submit
+                  </Button>
+                  <ToastContainer />
+                </div>
+              </div>
             </Form>
-            <div>-</div>
-            <Button variant="primary" type="submit" onClick={handellinkepage}>
-              reset password
-            </Button>
+            <div style={{ color: "blue" }}>
+              <h5>Note: if you ResetPassword not required password field</h5>
+            </div>
+            <div className="d-flex justify-content-between">
+              <div>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={handellinkepage}
+                >
+                  reset password
+                </Button>
+              </div>
+              <div>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  onClick={() => {
+                    navigation("/");
+                  }}
+                >
+                  goto-RegisterPage
+                </Button>
+              </div>
+            </div>
           </Col>
         </Row>
       </Container>

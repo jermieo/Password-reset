@@ -8,7 +8,6 @@ const UserPage = () => {
   const navigation = useNavigate();
   const loguserdata = useSelector((state) => state.logPagereducer.value);
   const [tokendata, stateValue] = useState([]);
-  console.log(tokendata, "tokendata");
 
   useEffect(() => {
     getcall();
@@ -59,7 +58,7 @@ const UserPage = () => {
             navigation("/login");
           }}
         >
-          Back to Loin page
+          Log out
         </Button>
       </Table>
     </>

@@ -7,6 +7,10 @@ import "./App.css";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 // Form field
 const Registration = () => {
   const obj = {
@@ -26,11 +30,42 @@ const Registration = () => {
   // submit Form
   const handelSubmit = (e) => {
     e.preventDefault();
-    const { password, conformPassword, checked } = formValue;
+    const {
+      password,
+      conformPassword,
+      checked,
+      firstName,
+      lastName,
+      userEmail,
+    } = formValue;
     if (password !== conformPassword) {
-      console.log("Please enter the same Password");
+      toast.error("Please enter the same Password", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (firstName == "") {
+      toast.error("Please enter firstName ", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (lastName == "") {
+      toast.error("Please enter lastName ", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (userEmail == "") {
+      toast.error("Please enter userEmail ", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (password == "") {
+      toast.error("Please enter password", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } else if (conformPassword == "") {
+      toast.error("Please enter conform Password", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     } else if (checked == false) {
-      console.log("Please check all information");
+      toast.error("Please check all information", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
     } else {
       Postcall();
     }
@@ -48,6 +83,12 @@ const Registration = () => {
         if (res.status == 200) {
           navigation("/registerMessage");
         }
+      })
+      .catch((error) => {
+        <ToastContainer />;
+        toast.error(error.response.data.error, {
+          position: toast.POSITION.TOP_RIGHT,
+        });
       });
   };
   return (
@@ -122,9 +163,12 @@ const Registration = () => {
                   onChange={handelChangeEvent}
                 />
               </Form.Group>
-              <Button variant="primary" type="submit">
-                Submit
-              </Button>
+              <div>
+                <Button variant="primary" type="submit">
+                  Submit
+                </Button>
+                <ToastContainer />
+              </div>
               <h4 style={{ color: "blue" }} className="text-center">
                 Node: Compulsory you will fill the checkbox and all fields
               </h4>
