@@ -18,9 +18,12 @@ const UserPage = () => {
       Authorization: loguserdata,
     };
     await axios
-      .get("http://localhost:4000/api/registration/getbyid", {
-        headers: headers,
-      })
+      .get(
+        "https://password-reset-backend-gz72.onrender.com/api/registration/getbyid",
+        {
+          headers: headers,
+        }
+      )
       .then((res) => stateValue([res.data.user]))
       .catch((error) => console.log(error));
   };

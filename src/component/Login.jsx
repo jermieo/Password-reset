@@ -45,9 +45,13 @@ const Login = () => {
   };
   const postcall = async () => {
     await axios
-      .post("http://localhost:4000/api/registration/login", formValue, {
-        headers,
-      })
+      .post(
+        "https://password-reset-backend-gz72.onrender.com/api/registration/login",
+        formValue,
+        {
+          headers,
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
           dispatch(tocken(res.data));
@@ -75,7 +79,7 @@ const Login = () => {
     } else {
       await axios
         .post(
-          "http://localhost:4000/api/registration/nodemailer/link",
+          "https://password-reset-backend-gz72.onrender.com/api/registration/nodemailer/link",
           formValue
         )
         .then((res) => console.log(res))

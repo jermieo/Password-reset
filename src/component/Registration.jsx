@@ -76,9 +76,13 @@ const Registration = () => {
       Authorization: "JWT fefege...",
     };
     await axios
-      .post("http://localhost:4000/api/registration/create", formValue, {
-        headers: headers,
-      })
+      .post(
+        "https://password-reset-backend-gz72.onrender.com/api/registration/create",
+        formValue,
+        {
+          headers: headers,
+        }
+      )
       .then((res) => {
         if (res.status == 200) {
           navigation("/registerMessage");

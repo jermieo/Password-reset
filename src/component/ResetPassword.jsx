@@ -40,7 +40,7 @@ const ResetPassword = () => {
     };
     await axios
       .post(
-        "http://localhost:4000/api/registration/reset/password",
+        "https://password-reset-backend-gz72.onrender.com/api/registration/reset/password",
         formValue,
         {
           headers: headers,
@@ -107,6 +107,9 @@ const ResetPassword = () => {
                   Submit
                 </Button>
                 <ToastContainer />
+              </div>
+              <div style={{ color: "blue" }} className="mx-5">
+                <h4>Note: if you can't submit pls check email</h4>
               </div>
             </Form>
           </Col>
